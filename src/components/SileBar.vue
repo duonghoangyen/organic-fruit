@@ -117,7 +117,6 @@
                         <li>
                              <router-link :to="{name:'Add'}"> Thêm mới Banner </router-link>
                         </li>
-
                     </ul>
                 </li>
 
