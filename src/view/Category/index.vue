@@ -1,6 +1,5 @@
 <template>
     <div class="main-container" id="container">
-
         <!--  BEGIN CONTENT AREA  -->
         <div id="content" class="main-content">
             <div class="layout-px-spacing">
@@ -18,7 +17,7 @@
                             <div class="widget-header">
                                 <div class="row">
                                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                        <h4>Quản Lý Banner</h4>
+                                        <h4>Quản Lý Danh Mục</h4>
                                     </div>
                                 </div>
                             </div>
@@ -29,19 +28,16 @@
                                             <tr>
                                                 <th class="text-center">Mã</th>
                                                 <th>Tên</th>
-                                                <th>Ảnh</th>
+                                                <th>Mô Tả</th>
                                                 <th>Trạng Thái</th>
                                                 <th class="text-center">Hành Động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="item in banner" :key="item.id">
+                                            <tr v-for="item in category" :key="item.id">
                                                 <td class="text-center">{{ item.code }}</td>
                                                 <td>{{ item.name }}</td>
-                                                <td>
-                                                    <img :src="'http://localhost:8080/Oganic_Fruit/assets/' + item.images"
-                                                        alt="" style="width: 100px">
-                                                </td>
+                                                <td>{{ item.description }}</td>
                                                 <td>
                                                     <p class="text-danger">
                                                         <span v-if="item.status">Hiển Thị</span>
@@ -88,9 +84,9 @@
                                 <path
                                     d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
                             </svg></a>
-                        <BannerEdit :banner="showEditStudent" v-if="isShowEdit == true"
+                        <CategoryEdit :category="showEdit" v-if="isShowEdit == true"
                             @ShowEditData="getEdit($event)" />
-                        <BannerAdd v-if="isShowAdd == true" @ShowData="getData($event)" />
+                        <CategoryAdd v-if="isShowAdd == true" @ShowData="getData($event)" />
                     </div>
                 </div>
             </div>
@@ -100,27 +96,28 @@
 <style>
 </style>
 <script>
+
 import axios from 'axios';
-import BannerEdit from "../Banner/edit.vue";
-import BannerAdd from "../Banner/add.vue";
+import CategoryEdit from "../Category/edit.vue";
+import CategoryAdd from "../Category/add.vue";
 export default {
     name: "Index",
     components: {
-        BannerEdit,
-        BannerAdd,
+        CategoryEdit,
+        CategoryAdd,
     },
     data() {
         return {
-            banner: null,
-            showEditStudent: null,
+            category: null,
+            showEdit: null,
             isShowEdit: false,
             isShowAdd: false,
         }
     },
     mounted() {
-        axios.get("http://localhost:8080/Oganic_Fruit/rest/bannerService/getListBanner")
+        axios.get("http://localhost:8080/Oganic_Fruit/rest/categoryService/getListCategory")
             .then((res) => {
-                this.banner = res.data;
+                this.category = res.data;
             })
             .catch((error) => {
                 console.log(error);
@@ -128,12 +125,11 @@ export default {
             .finally(() => {
                 //Perform action in always
             })
-
     },
 
     methods: {
         onEdit(data) {
-            this.showEditStudent = data;
+            this.showEdit = data;
             this.isShowEdit = true
             console.log(data);
         },
@@ -145,32 +141,32 @@ export default {
             this.isShowAdd = true
         },
         getData(data) {
-            this.banner.push(data);
+            this.category.push(data);
             console.log(data);
             this.isShowAdd = false;
             this.$forceUpdate();
 
         },
         getEdit(data) {
-            for (let i = 0; i < this.banner.length; i++) {
-                if (this.banner[i].id == data.id) {
-                    this.banner[i] = data;
+            for (let i = 0; i < this.category.length; i++) {
+                if (this.category[i].id == data.id) {
+                    this.category[i] = data;
                     this.$forceUpdate();
                     break;
                 }
             }
 
-            console.log(this.banner);
+            console.log(this.category);
             this.isShowEdit = false;
         },
         onDelete(item) {
-            if (confirm("Bạn có chắc muốn xóa banner số " + item.id)) {
+            if (confirm("Bạn có chắc muốn xóa danh mục số " + item.id)) {
                 console.log(item.id);
 
-                axios.delete(`http://localhost:8080/Oganic_Fruit/rest/bannerService/deleteBanner/${item.id}`)
+                axios.delete(`http://localhost:8080/Oganic_Fruit/rest/categoryService/deleteCategory/${item.id}`)
                     .then(response => {
                         console.log(response);
-                        this.banner.splice(this.banner.findIndex(e => e.id == item.id), 1).push(response.data);
+                        this.category.splice(this.category.findIndex(e => e.id == item.id), 1).push(response.data);
                     })
                     .catch(function (error) {
                         console.log(error)

@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import IndexBanner from "./view/Banner/index";
-import AddBanner from "./view/Banner/add";
+import IndexCategory from "./view/Category/index";
+import IndexProduct from "./view/Product/index";
+import IndexBlog from "./view/Blog/index";
 import Home from "./view/home";
 const routes = [{
         path: "/",
@@ -13,9 +15,19 @@ const routes = [{
         component: IndexBanner,
     },
     {
-        path: "/add",
-        name: "Add",
-        component: AddBanner,
+        path: "/category",
+        name: "IndexCate",
+        component: IndexCategory,
+    },
+    {
+        path: "/product",
+        name: "IndexPro",
+        component: IndexProduct,
+    },
+    {
+        path: "/blog",
+        name: "IndexBlog",
+        component: IndexBlog,
     },
 
 ];

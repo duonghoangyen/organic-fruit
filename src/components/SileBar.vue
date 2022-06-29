@@ -15,22 +15,13 @@
                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                             </svg>
-                            <router-link :to="{name:'Home'}"><span>Dashboard</span></router-link>
-                            
+                            <router-link :to="{ name: 'Home' }"><span>Dashboard</span></router-link>
+
                         </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-chevron-right">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </div>
+
                     </a>
-                    
+
                 </li>
-
-
-
                 <li class="menu">
                     <a href="#elements" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
@@ -39,25 +30,10 @@
                                 stroke-linejoin="round" class="feather feather-zap">
                                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                             </svg>
-                            <span>Danh Mục</span>
+                            <router-link :to="{ name: 'IndexCate' }">Danh Mục</router-link>
                         </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-chevron-right">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </div>
-                    </a>
-                    <ul class="collapse submenu list-unstyled" id="elements" data-parent="#accordionExample">
-                        <li>
-                            <a href="#"> Hiển Thị Danh Mục </a>
-                        </li>
-                        <li>
-                            <a href="#"> Thêm mới Danh Mục </a>
-                        </li>
 
-                    </ul>
+                    </a>
                 </li>
 
                 <li class="menu">
@@ -70,24 +46,10 @@
                                 <polyline points="2 17 12 22 22 17"></polyline>
                                 <polyline points="2 12 12 17 22 12"></polyline>
                             </svg>
-                            <span>Sản Phẩm</span>
+                            <router-link :to="{ name: 'IndexPro' }">Sản Phẩm</router-link>
                         </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-chevron-right">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </div>
+
                     </a>
-                    <ul class="collapse submenu list-unstyled" id="datatables" data-parent="#accordionExample">
-                        <li>
-                            <a href="#"> Hiển Thị Sản Phẩm </a>
-                        </li>
-                        <li>
-                            <a href="#"> Thêm mới Sản Phẩm </a>
-                        </li>
-                    </ul>
                 </li>
 
                 <li class="menu">
@@ -100,24 +62,11 @@
                                 </path>
                                 <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
                             </svg>
-                            <span>Banner</span>
+                            <router-link :to="{ name: 'Index' }">Banner</router-link>
                         </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-chevron-right">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </div>
+
                     </a>
-                    <ul class="collapse submenu list-unstyled" id="forms" data-parent="#accordionExample">
-                        <li>
-                            <router-link :to="{name:'Index'}">Hiển Thị Banner</router-link>
-                        </li>
-                        <li>
-                             <router-link :to="{name:'Add'}"> Thêm mới Banner </router-link>
-                        </li>
-                    </ul>
+
                 </li>
 
                 <li class="menu">
@@ -131,26 +80,10 @@
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                             </svg>
-                            <span>Blog</span>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-chevron-right">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
+                           <router-link :to="{ name: 'IndexBlog' }">Blog</router-link>
                         </div>
                     </a>
-                    <ul class="collapse submenu list-unstyled" id="users" data-parent="#accordionExample">
-                        <li>
-                            <a href="#"> Hiển Thị Blog </a>
-                        </li>
-                        <li>
-                            <a href="#"> Thêm mới Blog </a>
-                        </li>
-                    </ul>
                 </li>
-
                 <li class="menu">
                     <a href="#pages" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
@@ -162,24 +95,10 @@
                             </svg>
                             <span>Order</span>
                         </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-chevron-right">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </div>
                     </a>
-                    <ul class="collapse submenu list-unstyled" id="pages" data-parent="#accordionExample">
-                        <li>
-                            <a href="#"> Hiển Thị Order </a>
-                        </li>
-                        <li>
-                            <a href="#"> Thêm mới Order </a>
-                        </li>
-                    </ul>
-                </li>
 
+                </li>
+                
                 <li class="menu">
                     <a href="#components" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <div class="">
@@ -192,24 +111,11 @@
                                 <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
                                 <line x1="12" y1="22.08" x2="12" y2="12"></line>
                             </svg>
-                            <span>Rating</span>
+                            <span>Account</span>
                         </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-chevron-right">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </div>
+                        
                     </a>
-                    <ul class="collapse submenu list-unstyled" id="components" data-parent="#accordionExample">
-                        <li>
-                            <a href="#"> Hiển Thị Rating </a>
-                        </li>
-                        <li>
-                            <a href="#"> Thêm mới Rating </a>
-                        </li>
-                    </ul>
+                    
                 </li>
             </ul>
 
