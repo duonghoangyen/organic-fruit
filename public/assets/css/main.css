@@ -67,6 +67,14 @@ hr {
     border-color: green;
 }
 
+textarea.error {
+    border-color: red;
+}
+
+textarea.success {
+    border-color: green;
+}
+
 strong {
     font-weight: 600;
 }
