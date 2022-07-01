@@ -72,7 +72,7 @@
 
 </template>
 <script>
-import axios from "axios";
+import CategoryService from "@/services/CategoryService";
 export default {
     data() {
         return {
@@ -203,11 +203,10 @@ export default {
             }
 
             if (this.codeSuccess.status == true && this.nameSuccess.status == true && this.descriptionSuccess.status == true) {
-                axios
-                    .post("http://localhost:8080/Oganic_Fruit/rest/categoryService/insertCategory", this.category)
+                CategoryService.create(this.category)
                     .then((res) => {
                         //Perform Success Action
-                        this.ID = res.data;
+                        this.ID = res.data.id;
                         this.category.id = this.ID;
                         console.log(this.category.id);
                     })

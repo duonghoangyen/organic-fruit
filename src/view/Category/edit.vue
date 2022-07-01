@@ -62,7 +62,8 @@
     </div>
 </template>
 <script>
-import axios from "axios";
+import CategoryService from '@/services/CategoryService';
+
 export default {
     props: ['category'],
     data() {
@@ -73,8 +74,7 @@ export default {
     },
     methods: {
         onSubmitEditForm() {
-            axios
-                .post("http://localhost:8080/Oganic_Fruit/rest/categoryService/updateCategory", this.categorys)
+            CategoryService.update(this.categorys)
                 .then((res) => {
                     //Perform Success Action
                     // this.categorys = res.data;

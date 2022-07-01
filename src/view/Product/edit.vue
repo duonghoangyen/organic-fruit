@@ -37,13 +37,15 @@
                 <div class="form-group row mb-4">
                     <label for="hPassword" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Giá</label>
                     <div class="col-6">
-                        <input type="number" class="form-control" id="name" placeholder="" v-model="products.price" step="100000">
+                        <input type="number" class="form-control" id="name" placeholder="" v-model="products.price"
+                            step="100000">
                     </div>
                 </div>
                 <div class="form-group row mb-4">
                     <label for="hPassword" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Giá Khuyến mãi</label>
                     <div class="col-6">
-                        <input type="number" class="form-control" id="name" placeholder="" v-model="products.salePrice" step="10000">
+                        <input type="number" class="form-control" id="name" placeholder="" v-model="products.salePrice"
+                            step="10000">
                     </div>
                 </div>
                 <fieldset class="form-group mb-4">
@@ -66,20 +68,22 @@
                     </div>
                 </fieldset>
                 <div class="form-group row mb-4">
-                    <label for="hPassword" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">
-                        Ảnh</label>
-                    <div class="col-xl-10 col-lg-9 col-sm-10">
-                        <input type="file" class="custom-file-container__custom-file__custom-file-input"
-                            accept="Images/*" ref="images" id="images" @change="handleFileUpload()">
-
+                    <div class="col-4">
+                        <p class="btn btn-success btn-sm" @click="$refs.file.click()">
+                            Chọn file
+                        </p>
+                    </div>
+                    <div class="col-8">
+                        <label class="btn btn-default p-0">
+                            <input type="file" accept="image/*" ref="file" @change="selectImage" :hidden="true" />
+                        </label>
                     </div>
                     <div class="col-xl-10 col-lg-9 col-sm-10">
-                        <img :src="'http://localhost:8080/Oganic_Fruit/assets/' + products.images"
-                            style="width: 600px;height: 500px;margin-left: 20%;" v-if="ishowImage == false" />
-                        <img v-bind:src="url" style="width: 600px;height: 500px;margin-left: 20%;"
+                        <img :src="'http://localhost:8080/uploads/' + banners.images"
+                            style="width: 600px; height: 500px; margin-left: 20%" v-if="ishowImage == false" />
+                        <img v-bind:src="url" style="width: 600px; height: 500px; margin-left: 20%"
                             v-if="ishowImage == true" />
                     </div>
-
                 </div>
 
                 <div class="form-group row">
@@ -92,7 +96,10 @@
     </div>
 </template>
 <script>
-import axios from "axios";
+import CategoryService from '@/services/CategoryService';
+import ProductService from '@/services/ProductService';
+import UploadService from "../../services/UploadService";
+
 export default {
     props: ['product'],
     data() {
@@ -100,12 +107,13 @@ export default {
             products: this.product,
             url: null,
             ishowImage: false,
-            category:null
-
+            category: null,
+            message: "",
+            currentImage: undefined,
         }
     },
-       mounted() {
-        axios.get("http://localhost:8080/Oganic_Fruit/rest/categoryService/getListCategory")
+    mounted() {
+        CategoryService.getAll()
             .then((res) => {
                 this.category = res.data;
             })
@@ -118,23 +126,21 @@ export default {
     },
     methods: {
         onSubmitEditForm() {
-            let formData = new FormData();
-            formData.append('images', this.$refs.images.files[0]);
-            axios
-                .post("http://localhost:8080/Oganic_Fruit/rest/productService/updateProduct", this.products)
+            UploadService.upload(this.currentImage)
+                .then((response) => {
+                    console.log();
+                    this.message = response.data.message;
+                })
+                .catch((err) => {
+                    this.message = "Could not upload the image! " + err;
+                    this.currentImage = undefined;
+                });
+            ProductService.update(this.products)
                 .then((res) => {
                     //Perform Success Action
                     // this.categorys = res.data;
                     // res.data.files;
                     console.log(res);
-                    if (this.products.images == "") {
-                        axios
-                            .post("http://localhost:8080/Oganic_Fruit/rest/uploadService/upload", formData, {
-                                headers: {
-                                    "Content-Type": "multipart/form-data"
-                                }
-                            })
-                    }
                 })
                 .catch((error) => {
                     // error.response.status Check status code
@@ -145,11 +151,12 @@ export default {
                 });
             this.$emit("ShowEditData", this.products);
         },
-        handleFileUpload() {
-            this.banners.images = this.$refs.images.files[0].name;
-            this.url = URL.createObjectURL(this.$refs.images.files[0]);
+        selectImage() {
+            this.currentImage = this.$refs.file.files.item(0);
+            this.url = URL.createObjectURL(this.currentImage);
+            this.products.images = this.$refs.file.files.item(0).name;
             this.ishowImage = true;
-        }
+        },
     }
 
 }
