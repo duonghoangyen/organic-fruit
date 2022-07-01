@@ -55,8 +55,8 @@
                 <div class="form-group row mb-4">
                     <label for="hPassword" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Giá</label>
                     <div class="col-6">
-                        <input type="number" class="form-control" id="name" placeholder="" v-model="product.price" step="100000"
-                            :class="{ error: priceError.status, success: priceSuccess.status }">
+                        <input type="number" class="form-control" id="name" placeholder="" v-model="product.price"
+                            step="100000" :class="{ error: priceError.status, success: priceSuccess.status }">
                         <p class="text-error" v-if="priceError.status">{{ priceError.text }}</p>
                         <p class="success-text" v-if="priceSuccess.status">{{ priceSuccess.text }}
                         </p>
@@ -65,7 +65,8 @@
                 <div class="form-group row mb-4">
                     <label for="hPassword" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Giá Khuyến mãi</label>
                     <div class="col-6">
-                        <input type="number" class="form-control" id="name" placeholder="" v-model="product.salePrice" step="10000">
+                        <input type="number" class="form-control" id="name" placeholder="" v-model="product.salePrice"
+                            step="10000">
                     </div>
                 </div>
                 <fieldset class="form-group mb-4">
@@ -88,15 +89,18 @@
                     </div>
                 </fieldset>
                 <div class="form-group row mb-4">
-                    <label for="hPassword" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">
-                        Ảnh</label>
-                    <div class="col-xl-10 col-lg-9 col-sm-10">
-                        <input type="file" class="custom-file-container__custom-file__custom-file-input" ref="images"
-                            name="images" id="images" @change="handleFileUpload()">
-
+                    <div class="col-4">
+                        <p class="btn btn-success btn-sm" @click="$refs.file.click()">
+                            Chọn file
+                        </p>
+                    </div>
+                    <div class="col-8">
+                        <label class="btn btn-default p-0">
+                            <input type="file" accept="image/*" ref="file" @change="selectImage" :hidden="true" />
+                        </label>
                     </div>
                     <div class="col-xl-10 col-lg-9 col-sm-10">
-                        <img v-if="url" :src="url" style="width: 600px;height: 500px;margin-left: 20%;" />
+                        <img v-if="url" :src="url" style="width: 600px; height: 500px; margin-left: 20%" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -110,10 +114,14 @@
 
 </template>
 <script>
-import axios from "axios";
+import CategoryService from '@/services/CategoryService';
+import ProductService from '@/services/ProductService';
+import UploadService from "../../services/UploadService";
 export default {
     data() {
         return {
+            message: "",
+            currentImage: undefined,
             category: null,
             url: null,
             ID: null,
@@ -164,7 +172,7 @@ export default {
 
     },
     mounted() {
-        axios.get("http://localhost:8080/Oganic_Fruit/rest/categoryService/getListCategory")
+        CategoryService.getAll()
             .then((res) => {
                 this.category = res.data;
             })
@@ -294,27 +302,21 @@ export default {
             }
 
             if (this.codeSuccess.status == true && this.nameSuccess.status == true && this.descriptionSuccess.status == true && this.priceSuccess.status == true) {
-                let formData = new FormData();
-                formData.append('images', this.$refs.images.files[0]);
-                axios
-                    .post("http://localhost:8080/Oganic_Fruit/rest/productService/insertProduct", this.product, this.product.images, {
-                        headers: {
-                            "Content-Type": "multipart/form-data"
-                        }
+                UploadService.upload(this.currentImage)
+                    .then((response) => {
+                        console.log();
+                        this.message = response.data.message;
                     })
+                    .catch((err) => {
+                        this.message = "Could not upload the image! " + err;
+                        this.currentImage = undefined;
+                    });
+                ProductService.create(this.product)
                     .then((res) => {
                         //Perform Success Action
-                        this.ID = res.data;
+                        this.ID = res.data.id;
                         this.product.id = this.ID;
                         console.log(this.product);
-                        res.data.files;
-                        axios
-                            .post("http://localhost:8080/Oganic_Fruit/rest/uploadService/upload", formData, {
-                                headers: {
-                                    "Content-Type": "multipart/form-data"
-                                }
-                            })
-
                     })
                     .catch((error) => {
                         // error.response.status Check status code
@@ -328,10 +330,10 @@ export default {
             }
 
         },
-        handleFileUpload() {
-            this.product.images = this.$refs.images.files[0].name;
-            this.url = URL.createObjectURL(this.$refs.images.files[0]);
-            console.log(this.product.images);
+        selectImage() {
+            this.currentImage = this.$refs.file.files.item(0);
+            this.url = URL.createObjectURL(this.currentImage);
+            this.product.images = this.$refs.file.files.item(0).name;
         }
     }
 

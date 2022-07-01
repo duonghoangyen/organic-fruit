@@ -107,9 +107,9 @@
 <style>
 </style>
 <script>
-import axios from 'axios';
 import ProductEdit from "../Product/edit.vue";
 import ProductAdd from "../Product/add.vue";
+import ProductService from "@/services/ProductService";
 export default {
     name: "Index",
     components: {
@@ -125,9 +125,10 @@ export default {
         }
     },
     created() {
-        axios.get("http://localhost:8080/Oganic_Fruit/rest/productService/getListProduct")
+        ProductService.getAll()
             .then((res) => {
                 this.product = res.data;
+                console.log(res);
             })
             .catch((error) => {
                 console.log(error);
@@ -174,7 +175,7 @@ export default {
             if (confirm("Bạn có chắc muốn xóa sản phẩm số " + item.id)) {
                 console.log(item.id);
 
-                axios.delete(`http://localhost:8080/Oganic_Fruit/rest/productService/deleteProduct/${item.id}`)
+                ProductService.delete(item.id)
                     .then(response => {
                         console.log(response);
                         this.product.splice(this.product.findIndex(e => e.id == item.id), 1).push(response.data);
