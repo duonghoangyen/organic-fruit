@@ -1,19 +1,22 @@
 <template>
-  <div>
-    <Header/>
-<SileBar />
-<router-view></router-view>
-  </div>
+<Login/>
+  <!-- <div>
+    <Header />
+    <SileBar />
+    <router-view></router-view>
+  </div> -->
 </template>
 
 <script>
-import Header from "./components/Header.vue";
-import SileBar from "./components/SileBar.vue";
+// import Header from "./components/Header.vue";
+// import SileBar from "./components/SileBar.vue";
+import Login from "./components/Login.vue"
 export default {
   name: 'App',
   components: {
-    Header,
-    SileBar,
+    // Header,
+    // SileBar,
+    Login
   }
 }
 </script>

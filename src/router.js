@@ -4,6 +4,7 @@ import IndexCategory from "./view/Category/index";
 import IndexProduct from "./view/Product/index";
 import IndexBlog from "./view/Blog/index";
 import Home from "./view/home";
+// import NotFound from "./components/404";
 const routes = [{
         path: "/",
         name: "Home",
@@ -29,7 +30,11 @@ const routes = [{
         name: "IndexBlog",
         component: IndexBlog,
     },
-
+    // {
+    //     path: "*",
+    //     name: "404",
+    //     component: NotFound,
+    // },
 ];
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),

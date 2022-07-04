@@ -42,10 +42,10 @@
                                             <tr v-for="item in product" :key="item.id">
                                                 <td class="text-center">{{ item.code }}</td>
                                                 <td>{{ item.name }}</td>
-                                                <td>{{ item.catName }}</td>
+                                                <td>{{ item.categoryId.name }}</td>
                                                 <td>{{ item.description }}</td>
                                                 <td>
-                                                    <img :src="'http://localhost:8080/Oganic_Fruit/assets/' + item.images"
+                                                    <img :src="'http://localhost:8080/uploads/' + item.images"
                                                         alt="" style="width: 100px">
                                                 </td>
                                                 <td>{{ item.price }}</td>
