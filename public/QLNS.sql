@@ -18,7 +18,7 @@ go
         ID int identity primary key,
         Code nvarchar(50) not null,
         Name nvarchar(150) not null,
-        Description nvarchar(200) not null,
+        Description nvarchar(max) not null,
         Images nvarchar(150) not null,
         Status bit default 1,
         CreatedDate date DEFAULT GETDATE(),
@@ -44,7 +44,7 @@ go
         ID int identity primary key,
         Code nvarchar(50) not null,
         Name nvarchar(150) not null,
-        Description nvarchar(200) not null,
+        Description nvarchar(max) not null,
         Status bit default 1,
         CreatedDate date DEFAULT GETDATE(),
         ModiredDate date DEFAULT GETDATE()
@@ -55,10 +55,10 @@ go
         Code nvarchar(50) not null,
         Name nvarchar(150) not null,
         CategoryID int foreign key references Category(ID) not null,
-        Description nvarchar(200) not null,
+        Description nvarchar(max) not null,
         Images nvarchar(150) not null,
         Price float not null,
-        SalePrice float,
+        SalePrice float default 0,
         Status bit default 1,
         CreatedDate date DEFAULT GETDATE(),
         ModiredDate date DEFAULT GETDATE()
@@ -102,25 +102,26 @@ go
         ProductID int foreign key references Product(ID) not null,
         AccountID int foreign key references Account(ID) not null,
         Star float not null,
-        Description nvarchar(200) not null,
+        Description nvarchar(max) not null,
         Status bit default 1,
         CreatedDate date DEFAULT GETDATE(),
         ModiredDate date DEFAULT GETDATE()
     )
-INSERT INTO
-    Category (Code, Name, Description)
-values
-(
-        N 'NK342',
-        N'Trái cây nhập khẩu',
-        N'Trái cây được nhập khẩu từ các nước khác nhau'
-    );
 
 INSERT INTO
     Category (Code, Name, Description)
 values
 (
-        N 'TN236',
+        N'NK342',
+        N'Trái cây nhập khẩu',
+        N'Trái cây được nhập khẩu từ các nước khác nhau'
+    );
+GO
+INSERT INTO
+    Category (Code, Name, Description)
+values
+(
+        N'TN236',
         N'Trái cây trong nước',
         N'Trái cây đặc sản của các vùng miền trong nước'
     );
@@ -153,12 +154,16 @@ values
     );
 
 Go
+
+INSERT INTO Banner (Code,Name ,Images) values(N'00001',N'Banner1',N'banner1.png');
+INSERT INTO Banner (Code,Name ,Images) values(N'00002',N'Banner2',N'banner2.png');
+GO
 INSERT INTO
     Product (Code, Name, Price, Images, CategoryID, Description)
 values
 (
         N'00001',
-        N 'Nho Đen Nam Phi',
+        N'Nho Đen Nam Phi',
         100000,
         N'nhodennamphi1.jpg',
         1,
@@ -170,7 +175,7 @@ INSERT INTO
 values
 (
         N'00002',
-        N 'Nho Úc Sweetglobe',
+        N'Nho Úc Sweetglobe',
         175000,
         N'nhoxanhuc1.jpg',
         1,
@@ -178,7 +183,7 @@ values
     );
 
 INSERT INTO
-    Product (Code, Name, Price, Images, CategoryID, Description)
+   Product (Code, Name, Price, Images, CategoryID, Description)
 values
 (
         N'00003',
@@ -206,11 +211,11 @@ INSERT INTO
 values
 (
         N'00006',
-        N 'Nho xanh Nam Phi',
+        N'Nho xanh Nam Phi',
         155000,
         N'nhoxanhnamphi1.png',
         1,
-        N ' Nho có dáng thuôn, vỏ mỏng, màu xanh hổ phách bắt mắt. Thịt nho giòn tan, không hạt, vị ngọt đậm đà rất ngon. '
+        N' Nho có dáng thuôn, vỏ mỏng, màu xanh hổ phách bắt mắt. Thịt nho giòn tan, không hạt, vị ngọt đậm đà rất ngon. '
     );
 
 INSERT INTO
@@ -222,7 +227,7 @@ values
         45000,
         N'hongxiemxuandinh1.jfif',
         2,
-        N 'Hồng xiêm Xuân Đỉnh có hương thơm và vị ngọt rất đặc biệt. Những miếng hồng xiêm khi cắt màu mật ong óng ả,thịt hồng mịn'
+        N'Hồng xiêm Xuân Đỉnh có hương thơm và vị ngọt rất đặc biệt. Những miếng hồng xiêm khi cắt màu mật ong óng ả,thịt hồng mịn'
     );
 
 INSERT INTO
@@ -242,12 +247,14 @@ INSERT INTO
 values
 (
         N'00009',
-        N 'Ổi Nữ Hoàng',
+        N'Ổi Nữ Hoàng',
         30000,
         N'oinuhoang1.jpg',
         2,
-        N 'Ổi nữ hoàng quả to, xanh, giòn, ăn vào có vị chua ngọt, hạt rất ít. Một đĩa Ổi Nữ Hoàng kèm chèn muối ớt cay nồng sẽ là sự kết hợp hoàn hảo cho bữa ăn vặt thơm ngon, tốt cho sức khỏe. '
+        N'Ổi nữ hoàng quả to, xanh, giòn, ăn vào có vị chua ngọt, hạt rất ít. Một đĩa Ổi Nữ Hoàng kèm chèn muối ớt cay nồng sẽ là sự kết hợp hoàn hảo cho bữa ăn vặt thơm ngon, tốt cho sức khỏe. '
     );
+
+
 
 INSERT INTO
     Product (Code, Name, Price, Images, CategoryID, Description)
@@ -258,8 +265,11 @@ values
         28000,
         N'xoaikeo1.jfif',
         2,
-        N'Loại trái cây phổ biến được ưa chuộng giàu chất xơ, vitamin, khoáng chất thiết yếu giúp cung cấp chất dinh dưỡng cho cơ thể con người và mang lại nhiều lợi ích tuyệt vời cho hệ tiêu hóa, tim mạch, giúp mắt sáng, làm đẹp da. Xoài keo có quả chắc giòn giòn chua ngọt thơm ngon được nhiều người ưa thích '
+        N'Loại trái cây phổ biến được ưa chuộng giàu chất xơ, vitamin, khoáng chất thiết yếu giúp cung cấp chất dinh dưỡng cho cơ thể con người và mang lại nhiều lợi ích tuyệt vời cho hệ tiêu hóa, tim mạch, giúp mắt sáng, làm đẹp da.
+		Xoài keo có quả chắc giòn giòn chua ngọt thơm ngon được nhiều người ưa thích '
     );
+
+
 
 INSERT INTO
     Product (Code, Name, Price, Images, CategoryID, Description)
@@ -330,7 +340,7 @@ values
         550000,
         N'giotraicay1.jpg',
         3,
-        N '2 cam mỹ/Úc Premier
+        N'2 cam mỹ/Úc Premier
 2 quýt Úc S36
 1 Lê Hàn quốc premium
 1 kiwi vàng
@@ -349,7 +359,7 @@ values
         1540000,
         N'giotraicay2.jpg',
         3,
-        N 'Nho xanh nhập khẩu 1kg (Mỹ, Úc, Nam Phi)
+        N'Nho xanh nhập khẩu 1kg (Mỹ, Úc, Nam Phi)
 Nho đỏ/kẹo/đen nhập khẩu 1kg (Mỹ, Úc, Nam Phi)
 2 kiwi vàng New Zealand/Pháp
 4 táo Envy
@@ -369,7 +379,7 @@ values
         750000,
         N'giotraicay3.jpg',
         3,
-        N '1 lê Hàn Quốc Premier
+        N'1 lê Hàn Quốc Premier
 8 táo gala Mỹ S90 (hoặc tương đương)
 0.5kg nho xanh/đỏ/đen Mỹ
 2 cam vàng Úc Premier
@@ -378,6 +388,9 @@ values
 giỏ cạp L
 nơ và vật dụng trang trí '
     );
+
+
+
 
 INSERT INTO
     Product (Code, Name, Price, Images, CategoryID, Description)
@@ -388,7 +401,7 @@ values
         490000,
         N'hoptraicay1.jpg',
         3,
-        N ' Táo queen, Breeze NZ hoặc tương đương
+        N' Táo queen, Breeze NZ hoặc tương đương
 Nho xanh Mỹ/nho đen Mỹ
 Cam Úc
 Lê Hàn Quốc Premier
@@ -406,7 +419,7 @@ values
         1600000,
         N'hoptraicay2.jpg',
         3,
-        N 'Dâu tây Hàn Quốc 700gr loại 1
+        N'Dâu tây Hàn Quốc 700gr loại 1
 Nho xanh Mỹ/Úc/Nam Phi 2kg
 Hoa trang trí
 1 cành hồng đẹp thơm
@@ -443,7 +456,7 @@ INSERT INTO
 values
 (
         N'00022',
-        N 'Ruốc Cá Hồi Soboro 160g Nhật Bản',
+        N'Ruốc Cá Hồi Soboro 160g Nhật Bản',
         95000,
         N'ruoccahoi.jpg',
         5,
@@ -455,7 +468,7 @@ INSERT INTO
 values
 (
         N'00023',
-        N 'Dầu Ăn Hạt Cải Nhật Bản',
+        N'Dầu Ăn Hạt Cải Nhật Bản',
         78000,
         N'dauanhatcai1.jpg',
         5,
@@ -491,7 +504,7 @@ INSERT INTO
 values
 (
         N'00026',
-        N 'Kiwi Vàng Newzealand 500g',
+        N'Kiwi Vàng Newzealand 500g',
         110000,
         N'kiwivang1.jpg',
         1,
@@ -503,7 +516,7 @@ INSERT INTO
 values
 (
         N'00027',
-        N 'Kiwi Xanh Newzealand 500g',
+        N'Kiwi Xanh Newzealand 500g',
         190000,
         N'kiwixanh1.jpg',
         1,
